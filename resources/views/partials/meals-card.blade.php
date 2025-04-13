@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header bg-info text-white">
         <div class="d-flex justify-content-between">
-            <span>Refeições</span>
+            <span>href="{{route('dashboard')}}"</span>
             <a href="{{ route('meals.create') }}" class="text-white">+ Nova</a>
         </div>
     </div>

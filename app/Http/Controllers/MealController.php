@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Meal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MealController extends Controller
 {
@@ -13,7 +15,8 @@ class MealController extends Controller
      */
     public function index()
     {
-        //
+        $meals = Meal::where('user_id', Auth::id())->latest()->get();
+        return view('painel.meals.index', compact('meals'));
     }
 
     /**
@@ -23,7 +26,7 @@ class MealController extends Controller
      */
     public function create()
     {
-        //
+        return view('painel.meals.create');
     }
 
     /**
@@ -34,9 +37,24 @@ class MealController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'meal_type' => 'required|in:cafe,almoco,jantar,lanches',
+            'carbs' => 'nullable|numeric|min:0',
+            'consumed_at' => 'nullable',
+        ]);
+    
+        Meal::create([
+            'user_id' => auth()->id(),
+            'name' => $request->name,
+            'meal_type' => $request->meal_type,
+            'carbs' => $request->carbs,
+            'consumed_at' => $request->consumed_at ?? null,
+        ]);
+    
+        return redirect()->route('meals.index')->with('success', 'Refeição cadastrada com sucesso!');
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -54,11 +72,11 @@ class MealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Meal $meal)
     {
-        //
+        return view('painel.meals.edit', compact('meal'));
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -66,7 +84,7 @@ class MealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Meal $meal)
     {
         //
     }
@@ -77,8 +95,16 @@ class MealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Meal $meal)
     {
-        //
+        try {
+            $meal->delete();
+            
+            return redirect()->route('meals.index')
+                            ->with('success', 'Refeição deletada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                            ->with('error', 'Erro ao deletar refeição: ' . $e->getMessage());
+        }
     }
 }
