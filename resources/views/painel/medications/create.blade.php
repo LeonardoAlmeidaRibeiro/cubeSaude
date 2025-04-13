@@ -169,24 +169,5 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('sb-admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('sb-admin/js/demo/chart-pie-demo.js') }}"></script>
-    <script>
-        function checkNotifications() {
-            fetch('/notifications-check')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.count > 0) {
-                        // Atualizar o contador
-                        document.getElementById('notification-count').innerText = data.count;
-                        // Opcional: mostrar toast
-                        new bootstrap.Toast(document.getElementById('new-notification-toast')).show();
-                    }
-                });
-        }
-
-        // Verificar a cada 60 segundos
-        setInterval(checkNotifications, 60000);
-
-    </script>
-
 
 </html>

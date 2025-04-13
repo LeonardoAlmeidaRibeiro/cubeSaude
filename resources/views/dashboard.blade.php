@@ -124,7 +124,7 @@
                             <div class="card h-100 shadow-sm">
                                 <div class="card-header bg-success text-white d-flex justify-content-between">
                                     <span>Medicamentos</span>
-                                    <a href="#" class="text-white">+ Adicionar</a>
+                                    <a href="{{ route('medications.index') }}" class="text-white">+ Adicionar</a>
                                 </div>
                                 <div class="card-body">
                                     @if(isset($todayMedications) && $todayMedications->count())
@@ -136,7 +136,7 @@
                                                 <small class="text-muted d-block">{{ $medication->dosage }}</small>
                                             </div>
                                             <span class="badge {{ $medication->taken ? 'bg-success' : 'bg-info' }}">
-                                                {{ $medication->time }} {{ $medication->taken ? '✔' : ' X ' }}
+                                                {{ $medication->time->format('H:i') }} {{ $medication->taken ? '✔' : ' X ' }}
                                             </span>
                                         </li>
                                         @endforeach
