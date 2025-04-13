@@ -1,84 +1,85 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Medication;
 use Illuminate\Http\Request;
 
 class MedicationController extends Controller
 {
-// Listar todos os medicamentos
-public function index()
-{
-    $medications = auth()->user()->medications()->orderBy('time')->get();
-    return view('medications.index', compact('medications'));
-}
-    
-// Mostrar formulário de criação
-public function create()
-{
-    return view('medications.create');
-}
+    // Listar todos os medicamentos
+    public function index()
+    {
+        $medications = auth()->user()->medications()->orderBy('time')->get();
+        return view('painel.medications.index', compact('medications'));
+    }
 
-// Armazenar novo medicamento
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'dosage' => 'required|string|max:100',
-        'time' => 'required|date_format:H:i',
-    ]);
+    // Mostrar formulário de criação
+    public function create()
+    {
+        return view('painel.medications.create');
+    }
 
-    auth()->user()->medications()->create($validated);
+    // Armazenar novo medicamento
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'dosage' => 'required|string|max:100',
+            'time' => 'required|date_format:H:i'
+        ]);
 
-    return redirect()->route('medications.index')
-                     ->with('success', 'Medicamento adicionado com sucesso!');
-}
+        auth()->user()->medications()->create($validated);
 
-// Marcar como tomado/não tomado
-public function toggleTaken(Medication $medication)
-{
-    $this->authorize('update', $medication);
-    
-    $medication->update([
-        'taken' => !$medication->taken,
-        'updated_at' => now()
-    ]);
+        return redirect()->route('medications.index')
+            ->with('success', 'Medicamento adicionado com sucesso!');
+    }
+    // Marcar como tomado/não tomado
+    public function toggleTaken(Medication $medication)
+    {
+            $medication->update([
+            'taken' => !$medication->taken,
+            'updated_at' => now()
+        ]);
 
-    return back()->with('success', 'Status atualizado!');
-}
+        return back()->with('success', 'Status atualizado!');
+    }
 
-// Mostrar formulário de edição
-public function edit(Medication $medication)
-{
-    $this->authorize('update', $medication);
-    
-    return view('medications.edit', compact('medication'));
-}
+    // Mostrar formulário de edição
+    public function edit(Medication $medication)
+    {
 
-// Atualizar medicamento
-public function update(Request $request, Medication $medication)
-{
-    $this->authorize('update', $medication);
-    
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'dosage' => 'required|string|max:100',
-        'time' => 'required|date_format:H:i',
-    ]);
+        return view('painel.medications.edit', compact('medication'));
+    }
 
-    $medication->update($validated);
+    // Atualizar medicamento
+    public function update(Request $request, Medication $medication)
+    {
 
-    return redirect()->route('medications.index')
-                     ->with('success', 'Medicamento atualizado com sucesso!');
-}
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'dosage' => 'required|string|max:100',
+            'time' => 'required|date_format:H:i',
+            'taken' => 'sometimes|boolean'
+        ]);
 
-// Remover medicamento
-public function destroy(Medication $medication)
-{
-    $this->authorize('delete', $medication);
-    
-    $medication->delete();
+        $medication->update($validated);
 
-    return back()->with('success', 'Medicamento removido!');
-}
+        return redirect()->route('medications.index')
+            ->with('success', 'Medicamento atualizado com sucesso!');
+    }
+
+    // Remover medicamento
+    public function destroy(Medication $medication)
+    {
+        try {
+            $medication->delete();
+            
+            return redirect()->route('medications.index')
+                            ->with('success', 'Medicamento deletado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                            ->with('error', 'Erro ao deletar medicamento: ' . $e->getMessage());
+        }
+    }
 }
