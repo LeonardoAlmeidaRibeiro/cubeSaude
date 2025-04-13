@@ -86,7 +86,7 @@
                             <div class="card h-100 shadow-sm">
                                 <div class="card-header bg-primary text-white d-flex justify-content-between">
                                     <span>Medições de Glicose</span>
-                                    <a href="#" class="text-white">+ Adicionar</a>
+                                    <a href="{{ route('glucose.index') }}" class="text-white">+ Adicionar</a>
                                 </div>
                                 <div class="card-body">
                                     @if(isset($todayGlucose) && $todayGlucose->count())

@@ -2,83 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GlucoseMeasurement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GlucoseMeasurementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $measurements = GlucoseMeasurement::where('user_id', Auth::id())->latest()->get();
+        return view('painel.glucose.index', compact('measurements'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('painel.glucose.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'value' => 'required|numeric|min:0',
+            'measurement_type' => 'required|in:jejum,pre-refeicao,pos-refeicao',
+            'measured_at' => 'required|date',
+        ]);
+
+        GlucoseMeasurement::create([
+            'user_id' => Auth::id(),
+            'value' => $request->value,
+            'measurement_type' => $request->measurement_type,
+            'measured_at' => $request->measured_at,
+        ]);
+
+        return redirect()->route('glucose.index')->with('success', 'Medição registrada!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(GlucoseMeasurement $glucose)
     {
-        //
+        return view('painel.glucose.edit', compact('glucose'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, GlucoseMeasurement $glucose)
     {
-        //
+        $request->validate([
+            'value' => 'required|numeric|min:0',
+            'measurement_type' => 'required|in:jejum,pre-refeicao,pos-refeicao',
+            'measured_at' => 'required|date',
+        ]);
+
+        $glucose->update($request->only(['value', 'measurement_type', 'measured_at']));
+
+        return redirect()->route('glucose.index')->with('success', 'Medição atualizada!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(GlucoseMeasurement $glucose)
     {
-        //
-    }
+        try {
+            $glucose->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            return redirect()->route('glucose.index')
+                ->with('success',  'Medição removida!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Erro ao deletar medição: ' . $e->getMessage());
+        }
     }
 }
