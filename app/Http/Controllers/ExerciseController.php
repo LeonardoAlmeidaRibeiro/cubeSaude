@@ -2,83 +2,104 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exercise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExerciseController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the exercises.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $exercises = Exercise::where('user_id', Auth::id())->latest()->get();
+        return view('painel.exercises.index', compact('exercises'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new exercise.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('painel.exercises.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created exercise in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'activity' => 'required|string|max:255',
+            'duration' => 'required|integer|min:1',
+            'done_at' => 'required|date',
+        ]);
+
+        Exercise::create([
+            'user_id' => Auth::id(),
+            'activity' => $request->activity,
+            'duration' => $request->duration,
+            'done_at' => $request->done_at,
+        ]);
+
+        return redirect()->route('exercises.index')->with('success', 'Exercício registrado!');
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified exercise.
      *
-     * @param  int  $id
+     * @param  \App\Models\Exercise  $exercise
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function edit(Exercise $exercise)
     {
-        //
+        return view('painel.exercises.edit', compact('exercise'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Update the specified exercise in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Exercise  $exercise
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Exercise $exercise)
     {
-        //
+        $request->validate([
+            'activity' => 'required|string|max:255',
+            'duration' => 'required|integer|min:1',
+            'done_at' => 'required|date',
+        ]);
+
+        $exercise->update($request->only(['activity', 'duration', 'done_at']));
+
+        return redirect()->route('exercises.index')->with('success', 'Exercício atualizado!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified exercise from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Exercise  $exercise
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Exercise $exercise)
     {
-        //
+        try {
+            $exercise->delete();
+
+            return redirect()->route('exercises.index')
+                ->with('success', 'Exercício removido!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Erro ao deletar exercício: ' . $e->getMessage());
+        }
     }
 }
