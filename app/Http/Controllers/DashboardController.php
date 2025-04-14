@@ -31,42 +31,96 @@ class DashboardController extends Controller
     // DashboardController.php
     public function index()
     {
-        $notifications = [
-            [
-                'title' => 'Medição de Glicose Pendente',
-                'message' => 'Faltam 2 medições hoje',
-                'time' => 'Há 30 minutos',
-                'urgent' => true
-            ],
-            [
-                'title' => 'Medicação Próxima',
-                'message' => 'Insulina em 15 minutos',
-                'time' => 'Em 15 minutos',
-                'urgent' => false
-            ]
-        ];
         $today = now()->format('Y-m-d');
         $user = auth()->user();
+
+        $pendingGlucose = 3 - $user->glucoseMeasurements()
+            ->whereDate('measured_at', $today)
+            ->count();
+
+        $nextMed = $user->medications()
+            ->where('taken', false)
+            ->whereTime('time', '>=', now()->format('H:i:s'))
+            ->orderBy('time')
+            ->first();
+
+        $notifications = [];
+
+        if ($pendingGlucose > 0) {
+            $message = "Faltam $pendingGlucose medições hoje";
+            $existing = \App\Models\Notification::where('user_id', $user->id)
+                ->where('title', 'Medições Pendentes')
+                ->whereDate('created_at', $today)
+                ->first();
+
+            if (!$existing) {
+                \App\Models\Notification::create([
+                    'user_id' => $user->id,
+                    'title' => 'Medições Pendentes',
+                    'message' => $message,
+                    'is_urgent' => true,
+                    'scheduled_at' => now(),
+                ]);
+            }
+
+            $notifications[] = [
+                'title' => 'Medições Pendentes',
+                'message' => $message,
+                'time' => 'Agora',
+                'urgent' => true
+            ];
+        }
+
+        if ($nextMed) {
+            $message = "{$nextMed->name} às {$nextMed->time->format('H:i')}";
+            $existing = \App\Models\Notification::where('user_id', $user->id)
+                ->where('title', 'Próxima Medicação')
+                ->whereDate('created_at', $today)
+                ->where('message', $message)
+                ->first();
+
+            if (!$existing) {
+                \App\Models\Notification::create([
+                    'user_id' => $user->id,
+                    'title' => 'Próxima Medicação',
+                    'message' => $message,
+                    'is_urgent' => false,
+                    'scheduled_at' => $nextMed->time,
+                ]);
+            }
+
+            $notifications[] = [
+                'title' => 'Próxima Medicação',
+                'message' => $message,
+                'time' => 'Em breve',
+                'urgent' => false
+            ];
+        }
+
         return view('dashboard', [
-            'todayGlucose' => auth()->user()->glucoseMeasurements()
+            'todayGlucose' => $user->glucoseMeasurements()
                 ->whereDate('measured_at', $today)
                 ->orderBy('measured_at')
                 ->get(),
 
-            'todayMedications' => auth()->user()->medications()
+            'todayMedications' => $user->medications()
                 ->whereDate('created_at', $today)
                 ->get(),
 
-            'todayMeals' => auth()->user()->meals()
+            'todayMeals' => $user->meals()
                 ->whereDate('consumed_at', $today)
                 ->orderBy('consumed_at')
                 ->get(),
 
-            'todayExercises' => auth()->user()->exercises()
+            'todayExercises' => $user->exercises()
                 ->whereDate('done_at', $today)
-                ->get(), 'user' => $user,'notifications'=>$notifications
+                ->get(),
+
+            'user' => $user,
+            'notifications' => $notifications,
         ]);
     }
+
     public function profile()
     {
         return view('profile');
