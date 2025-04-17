@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="container">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h1>Minhas Medições de Glicose</h1>
+                                <h1>Medições de Glicose</h1>
                                 <a href="{{ route('glucose.create') }}" class="btn btn-primary">
                                     <i class="fas fa-plus"></i> Adicionar Medição
                                 </a>
@@ -76,9 +76,9 @@
                                             <tbody>
                                                 @foreach($measurements as $measurement)
                                                 <tr>
-                                                    <td>{{ number_format($measurement->value, 2, ',', '.') }}</td>
-                                                    <td>{{ ucfirst(str_replace('-', ' ', $measurement->measurement_type)) }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($measurement->measured_at)->format('d/m/Y H:i') }}</td>
+                                                    <td>{{ number_format($measurement->valor, 2, ',', '.') }}</td>
+                                                    <td>{{ ucfirst(str_replace('-', ' ', $measurement->tipo_medicao)) }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($measurement->medido_em)->format('d/m/Y H:i') }}</td>
                                                     <td>
                                                         <a href="{{ route('glucose.edit', $measurement) }}" class="btn btn-sm btn-outline-primary">
                                                             <i class="fas fa-edit"></i>

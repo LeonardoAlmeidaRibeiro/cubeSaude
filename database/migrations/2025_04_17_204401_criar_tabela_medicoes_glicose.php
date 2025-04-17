@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGlucoseMeasurementsTable extends Migration
+class CriarTabelaMedicoesGlicose extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateGlucoseMeasurementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('glucose_measurements', function (Blueprint $table) {
+        Schema::create('medicoes_glicose', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->decimal('value', 5, 2); // valor da medição (ex: 120.50)
-            $table->string('measurement_type'); // 'jejum', 'pre-refeicao', 'pos-refeicao'
-            $table->timestamp('measured_at'); // data/hora da medição
+            $table->decimal('valor', 5, 2); 
+            $table->string('tipo_medicao');
+            $table->timestamp('medido_em'); 
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateGlucoseMeasurementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('glucose_measurements');
+        Schema::dropIfExists('medicoes_glicose');
     }
 }

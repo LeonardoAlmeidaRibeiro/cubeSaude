@@ -87,7 +87,7 @@
                                     <a href="{{ route('glucose.index') }}" class="text-white">+ Adicionar</a>
                                 </div>
                                 <div class="card-body">
-                                    @if(isset($todayGlucose) && $todayGlucose->count())
+                                    @if(isset($medicoesHoje) && $medicoesHoje->count())
                                     <div class="table-responsive">
                                         <table class="table table-sm table-hover">
                                             <thead>
@@ -98,13 +98,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($todayGlucose as $measurement)
+                                                @foreach($medicoesHoje as $medicoes)
                                                 <tr>
-                                                    <td class="{{ $measurement->value > 180 ? 'text-danger' : ($measurement->value < 70 ? 'text-warning' : 'text-success') }}">
-                                                        <strong>{{ $measurement->value }}</strong> mg/dL
+                                                    <td class="{{ $medicoes->valor > 180 ? 'text-danger' : ($medicoes->valor < 70 ? 'text-warning' : 'text-success') }}">
+                                                        <strong>{{ $medicoes->valor }}</strong> mg/dL
                                                     </td>
-                                                    <td>{{ ucfirst(str_replace('-', ' ', $measurement->measurement_type)) }}</td>
-                                                    <td>{{ $measurement->measured_at->format('H:i') }}</td>
+                                                    <td>{{ ucfirst(str_replace('-', ' ', $medicoes->tipo_medicao)) }}</td>
+                                                    <td>{{ $medicoes->medido_em->format('H:i') }}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

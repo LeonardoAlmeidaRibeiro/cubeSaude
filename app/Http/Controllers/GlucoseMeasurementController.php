@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GlucoseMeasurement;
+use App\Models\MedicaoGlicose;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,52 +10,56 @@ class GlucoseMeasurementController extends Controller
 {
     public function index()
     {
-        $measurements = GlucoseMeasurement::where('user_id', Auth::id())->latest()->get();
-        return view('painel.glucose.index', compact('measurements'));
+        $measurements = MedicaoGlicose::where('user_id', Auth::id())->latest()->get();
+        return view('painel.glicose.index', compact('measurements'));
     }
 
     public function create()
     {
-        return view('painel.glucose.create');
+        return view('painel.glicose.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'value' => 'required|numeric|min:0',
-            'measurement_type' => 'required|in:jejum,pre-refeicao,pos-refeicao',
-            'measured_at' => 'required|date',
+            'valor' => 'required|numeric|min:0',
+            'tipo_medicao' => 'required|in:jejum,pre-refeicao,pos-refeicao',
+            'medido_em' => 'required|date',
         ]);
-
-        GlucoseMeasurement::create([
-            'user_id' => Auth::id(),
-            'value' => $request->value,
-            'measurement_type' => $request->measurement_type,
-            'measured_at' => $request->measured_at,
+    
+        MedicaoGlicose::create([
+            'user_id' => Auth::id(),  
+            'valor' => $request->valor,
+            'tipo_medicao' => $request->tipo_medicao,
+            'medido_em' => $request->medido_em, 
         ]);
-
-        return redirect()->route('glucose.index')->with('success', 'Medição registrada!');
+    
+        return redirect()->route('glucose.index')->with('success', 'Medição registrada com sucesso!');
     }
 
-    public function edit(GlucoseMeasurement $glucose)
+    public function edit(MedicaoGlicose $glucose)
     {
-        return view('painel.glucose.edit', compact('glucose'));
+        return view('painel.glicose.edit', compact('glucose'));
     }
 
-    public function update(Request $request, GlucoseMeasurement $glucose)
+    public function update(Request $request, MedicaoGlicose $glucose)
     {
         $request->validate([
-            'value' => 'required|numeric|min:0',
-            'measurement_type' => 'required|in:jejum,pre-refeicao,pos-refeicao',
-            'measured_at' => 'required|date',
+            'valor' => 'required|numeric|min:0',
+            'tipo_medicao' => 'required|in:jejum,pre-refeicao,pos-refeicao',
+            'medido_em' => 'required|date',
         ]);
-
-        $glucose->update($request->only(['value', 'measurement_type', 'measured_at']));
-
-        return redirect()->route('glucose.index')->with('success', 'Medição atualizada!');
+    
+        $glucose->update([
+            'valor' => $request->valor,
+            'tipo_medicao' => $request->tipo_medicao,
+            'medido_em' => $request->medido_em
+        ]);
+    
+        return redirect()->route('glucose.index')->with('success', 'Medição atualizada com sucesso!');
     }
 
-    public function destroy(GlucoseMeasurement $glucose)
+    public function destroy(MedicaoGlicose $glucose)
     {
         try {
             $glucose->delete();

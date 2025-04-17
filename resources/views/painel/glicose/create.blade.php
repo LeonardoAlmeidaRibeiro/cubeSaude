@@ -50,55 +50,57 @@
                                     <div class="card shadow-sm">
                                         <div class="card-header bg-primary text-white">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <h5 class="mb-0">Editar Medição de Glicose</h5>
+                                                <h5 class="mb-0">Adicionar Nova Medição de Glicose</h5>
                                                 <a href="{{ route('glucose.index') }}" class="btn btn-sm btn-light">
                                                     <i class="fas fa-arrow-left"></i> Voltar
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <form action="{{ route('glucose.update', $glucose->id) }}" method="POST">
+                                            <form action="{{ route('glucose.store') }}" method="POST">
                                                 @csrf
-                                                @method('PUT')
-
+                                            
                                                 <!-- Campo Valor da Glicose -->
                                                 <div class="mb-3">
-                                                    <label for="value" class="form-label">Valor da Glicose (mg/dL)*</label>
-                                                    <input type="number" step="0.1" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ old('value', $glucose->value) }}" required>
-                                                    @error('value')
+                                                    <label for="valor" class="form-label">Valor da Glicose (mg/dL)*</label>
+                                                    <input type="number" step="0.1" class="form-control @error('valor') is-invalid @enderror" 
+                                                           id="valor" name="valor" value="{{ old('valor') }}" required>
+                                                    @error('valor')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-
+                                            
                                                 <!-- Campo Tipo da Medição -->
                                                 <div class="mb-3">
-                                                    <label for="measurement_type" class="form-label">Tipo da Medição*</label>
-                                                    <select class="form-control @error('measurement_type') is-invalid @enderror" id="measurement_type" name="measurement_type" required>
+                                                    <label for="tipo_medicao" class="form-label">Tipo da Medição*</label>
+                                                    <select class="form-control @error('tipo_medicao') is-invalid @enderror" 
+                                                            id="tipo_medicao" name="tipo_medicao" required>
                                                         <option value="">Selecione...</option>
-                                                        <option value="jejum" {{ old('measurement_type', $glucose->measurement_type) == 'jejum' ? 'selected' : '' }}>Jejum</option>
-                                                        <option value="pre-refeicao" {{ old('measurement_type', $glucose->measurement_type) == 'pre-refeicao' ? 'selected' : '' }}>Pré-refeicao</option>
-                                                        <option value="pos-refeicao" {{ old('measurement_type', $glucose->measurement_type) == 'pos-refeicao' ? 'selected' : '' }}>Pós-refeicao</option>
+                                                        <option value="jejum" {{ old('tipo_medicao') == 'jejum' ? 'selected' : '' }}>Jejum</option>
+                                                        <option value="pre-refeicao" {{ old('tipo_medicao') == 'pre-refeicao' ? 'selected' : '' }}>Pré-refeição</option>
+                                                        <option value="pos-refeicao" {{ old('tipo_medicao') == 'pos-refeicao' ? 'selected' : '' }}>Pós-refeição</option>
                                                     </select>
-                                                    @error('measurement_type')
+                                                    @error('tipo_medicao')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-
+                                            
                                                 <!-- Campo Data e Hora da Medição -->
                                                 <div class="mb-3">
-                                                    <label for="measured_at" class="form-label">Data e Hora da Medição*</label>
-                                                    <input type="datetime-local" class="form-control @error('measured_at') is-invalid @enderror" id="measured_at" name="measured_at" value="{{ old('measured_at', \Carbon\Carbon::parse($glucose->measured_at)->format('Y-m-d\TH:i')) }}" required>
-                                                    @error('measured_at')
+                                                    <label for="medido_em" class="form-label">Data e Hora da Medição*</label>
+                                                    <input type="datetime-local" class="form-control @error('medido_em') is-invalid @enderror" 
+                                                           id="medido_em" name="medido_em" value="{{ old('medido_em') }}" required>
+                                                    @error('medido_em')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-
+                                            
                                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                                    <a href="{{ route('glucose.index') }}" class="btn btn-outline-secondary me-md-2">
-                                                        <i class="fas fa-times"></i> Cancelar
-                                                    </a>&nbsp;
-                                                    <button type="submit" class="btn btn-primary text-white">
-                                                        <i class="fas fa-save"></i> Atualizar Medição
+                                                    <button type="reset" class="btn btn-outline-secondary me-md-2">
+                                                        <i class="fas fa-eraser"></i> Limpar
+                                                    </button>&nbsp;
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fas fa-save"></i> Salvar Medição
                                                     </button>
                                                 </div>
                                             </form>
@@ -175,24 +177,5 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('sb-admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('sb-admin/js/demo/chart-pie-demo.js') }}"></script>
-    <script>
-        function checkNotifications() {
-            fetch('/notifications-check')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.count > 0) {
-                        // Atualizar o contador
-                        document.getElementById('notification-count').innerText = data.count;
-                        // Opcional: mostrar toast
-                        new bootstrap.Toast(document.getElementById('new-notification-toast')).show();
-                    }
-                });
-        }
-
-        // Verificar a cada 60 segundos
-        setInterval(checkNotifications, 60000);
-
-    </script>
-
 
 </html>
