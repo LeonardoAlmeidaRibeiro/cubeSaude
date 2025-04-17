@@ -5,7 +5,7 @@ use App\Http\Controllers\{
     AuthController,
     DashboardController,
     GlucoseMeasurementController,
-    MedicationController,
+    MedicamentoController,
     MealController,
     ExerciseController
 };
@@ -50,12 +50,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/painel/index', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
     Route::resource('glucose', GlucoseMeasurementController::class);
-    
+
     // Rotas para medicamentos
-    Route::resource('medications', MedicationController::class);
-    Route::post('medications/{medication}/toggle', [MedicationController::class, 'toggleTaken'])
-         ->name('medications.toggle');
-    
+    Route::resource('medicamentos', MedicamentoController::class);
+    Route::patch('/medicamentos/{medicamento}/toggle-taken', [MedicamentoController::class, 'toggleTaken'])
+        ->name('medicamentos.toggleTaken');
+
     Route::resource('meals', MealController::class);
     Route::resource('exercises', ExerciseController::class);
 });

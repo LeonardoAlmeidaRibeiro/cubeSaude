@@ -10,27 +10,27 @@ class DashboardController extends Controller
     {
         $today = now()->format('Y-m-d');
         $user = auth()->user();
-    
+
         // Ajuste para usar medicoesGlicose() em vez de glucoseMeasurements()
         $pendingGlucose = 3 - $user->medicoesGlicose()
             ->whereDate('medido_em', $today)  // Ajustado para 'medido_em' em vez de 'measured_at'
             ->count();
-    
-        $nextMed = $user->medications()
-            ->where('taken', false)
-            ->whereTime('time', '>=', now()->format('H:i:s'))
-            ->orderBy('time')
+
+        $proximoMedicamento = $user->medicamentos()
+            ->where('tomado', false)
+            ->whereTime('horario', '>=', now()->format('H:i:s'))
+            ->orderBy('horario')
             ->first();
-    
+
         $notifications = [];
-    
+
         if ($pendingGlucose > 0) {
             $message = "Faltam $pendingGlucose medições hoje";
             $existing = \App\Models\Notification::where('user_id', $user->id)
                 ->where('title', 'Medições Pendentes')
                 ->whereDate('created_at', $today)
                 ->first();
-    
+
             if (!$existing) {
                 \App\Models\Notification::create([
                     'user_id' => $user->id,
@@ -40,7 +40,7 @@ class DashboardController extends Controller
                     'scheduled_at' => now(),
                 ]);
             }
-    
+
             $notifications[] = [
                 'title' => 'Medições Pendentes',
                 'message' => $message,
@@ -48,29 +48,29 @@ class DashboardController extends Controller
                 'urgent' => true
             ];
         }
-    
+
         // Restante do código permanece igual...
-    
+
         return view('dashboard', [
             'medicoesHoje' => $user->medicoesGlicose()
                 ->whereDate('medido_em', $today)  // Ajustado para 'medido_em'
                 ->orderBy('medido_em')  // Ajustado para 'medido_em'
                 ->get(),
-    
+
             // Restante do array de retorno permanece igual...
-            'todayMedications' => $user->medications()
+            'proximoMedicamento' => $user->medicamentos()
                 ->whereDate('created_at', $today)
                 ->get(),
-    
+
             'todayMeals' => $user->meals()
                 ->whereDate('consumed_at', $today)
                 ->orderBy('consumed_at')
                 ->get(),
-    
+
             'todayExercises' => $user->exercises()
                 ->whereDate('done_at', $today)
                 ->get(),
-    
+
             'user' => $user,
             'notifications' => $notifications,
         ]);

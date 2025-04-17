@@ -2,7 +2,7 @@
     <div class="card-header bg-success text-white">
         <div class="d-flex justify-content-between">
             <span>Medicamentos</span>
-            <a href="{{ route('medications.create') }}" class="text-white">+ Novo</a>
+            <a href="{{ route('medicamentos.create') }}" class="text-white">+ Novo</a>
         </div>
     </div>
     <div class="card-body">

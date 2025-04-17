@@ -46,8 +46,8 @@
                     <div class="row">
                         <div class="container">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h1>Meus Medicamentos</h1>
-                                <a href="{{ route('medications.create') }}" class="btn btn-primary">
+                                <h1>Medicamentos</h1>
+                                <a href="{{ route('medicamentos.create') }}" class="btn btn-primary">
                                     <i class="fas fa-plus"></i> Adicionar Medicamento
                                 </a>
                             </div>
@@ -75,24 +75,25 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($medications as $medication)
+                                                @foreach($medications as $medicamento)
                                                 <tr>
-                                                    <td>{{ $medication->name }}</td>
-                                                    <td>{{ $medication->dosage }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($medication->time)->format('H:i') }}</td>
+                                                    <td>{{ $medicamento->nome }}</td>
+                                                    <td>{{ $medicamento->dosagem }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($medicamento->horario)->format('H:i') }}</td>
                                                     <td>
-                                                        <form action="{{ route('medications.toggle', $medication->id) }}" method="POST">
+                                                        <form action="{{ route('medicamentos.toggleTaken', $medicamento->id) }}" method="POST">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-sm {{ $medication->taken ? 'btn-success' : 'btn-outline-secondary' }}">
-                                                                {{ $medication->taken ? '✔ Tomado' : 'Pendente' }}
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-sm {{ $medicamento->tomado ? 'btn-success' : 'btn-warning' }}">
+                                                                {{ $medicamento->tomado ? '✔ Tomado' : '⌛ Pendente' }}
                                                             </button>
                                                         </form>
                                                     </td>
                                                     <td>
-                                                        <a href="{{ route('medications.edit', $medication) }}" class="btn btn-sm btn-outline-primary">
+                                                        <a href="{{ route('medicamentos.edit', $medicamento) }}" class="btn btn-sm btn-outline-primary">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
-                                                        <form action="{{ route('medications.destroy', $medication) }}" method="POST" class="d-inline">
+                                                        <form action="{{ route('medicamentos.destroy', $medicamento) }}" method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza?')">

@@ -50,50 +50,67 @@
                                     <div class="card shadow-sm">
                                         <div class="card-header bg-primary text-white">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <h5 class="mb-0">Adicionar Novo Medicamento</h5>
-                                                <a href="{{ route('medications.index') }}" class="btn btn-sm btn-light">
+                                                <h5 class="mb-0">Editar Medicamento</h5>
+                                                <a href="{{ route('medicamentos.index') }}" class="btn btn-sm btn-light">
                                                     <i class="fas fa-arrow-left"></i> Voltar
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                            <form action="{{ route('medications.store') }}" method="POST">
-                                                @csrf
 
+                                        <div class="card-body">
+                                            <form action="{{ route('medicamentos.update', $medicamento) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                            
                                                 <!-- Campo Nome -->
                                                 <div class="mb-3">
-                                                    <label for="name" class="form-label">Nome do Medicamento*</label>
-                                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                                                    @error('name')
+                                                    <label for="nome" class="form-label">Nome do Medicamento*</label>
+                                                    <input type="text" class="form-control @error('nome') is-invalid @enderror" 
+                                                           id="nome" name="nome" value="{{ old('nome', $medicamento->nome) }}" required>
+                                                    @error('nome')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-
+                                            
                                                 <!-- Campo Dosagem -->
                                                 <div class="mb-3">
-                                                    <label for="dosage" class="form-label">Dosagem*</label>
-                                                    <input type="text" class="form-control @error('dosage') is-invalid @enderror" id="dosage" name="dosage" value="{{ old('dosage') }}" required>
-                                                    @error('dosage')
+                                                    <label for="dosagem" class="form-label">Dosagem*</label>
+                                                    <input type="text" class="form-control @error('dosagem') is-invalid @enderror" 
+                                                           id="dosagem" name="dosagem" value="{{ old('dosagem', $medicamento->dosagem) }}" required>
+                                                    @error('dosagem')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
-                                                    <small class="text-muted">Ex: 500mg, 10 unidades, 1 comprimido</small>
+                                                    <small class="text-muted">Exemplo: 500mg, 10 unidades, 1 comprimido</small>
                                                 </div>
-
+                                            
                                                 <!-- Campo Horário -->
                                                 <div class="mb-3">
-                                                    <label for="time" class="form-label">Horário*</label>
-                                                    <input type="time" class="form-control @error('time') is-invalid @enderror" id="time" name="time" value="{{ old('time') }}" required>
-                                                    @error('time')
+                                                    <label for="horario" class="form-label">Horário*</label>
+                                                    <input type="time" class="form-control @error('horario') is-invalid @enderror" 
+                                                           id="horario" name="horario" value="{{ old('horario', $medicamento->horario->format('H:i')) }}" required>
+                                                    @error('horario')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-
-                                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                                    <button type="reset" class="btn btn-outline-secondary me-md-2">
-                                                        <i class="fas fa-eraser"></i> Limpar
-                                                    </button>&nbsp;
+                                            
+                                                <!-- Campo Status -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">Status</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="tomado" name="tomado" value="1" 
+                                                               {{ old('tomado', $medicamento->tomado) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="tomado">
+                                                            Medicamento já foi tomado hoje
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="reset" class="btn btn-outline-secondary me-2">
+                                                        <i class="fas fa-eraser"></i> Limpar Alterações
+                                                    </button> &nbsp;
                                                     <button type="submit" class="btn btn-primary">
-                                                        <i class="fas fa-save"></i> Salvar Medicamento
+                                                        <i class="fas fa-save"></i> Atualizar Medicamento
                                                     </button>
                                                 </div>
                                             </form>
@@ -169,5 +186,24 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('sb-admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('sb-admin/js/demo/chart-pie-demo.js') }}"></script>
+    <script>
+        function checkNotifications() {
+            fetch('/notifications-check')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.count > 0) {
+                        // Atualizar o contador
+                        document.getElementById('notification-count').innerText = data.count;
+                        // Opcional: mostrar toast
+                        new bootstrap.Toast(document.getElementById('new-notification-toast')).show();
+                    }
+                });
+        }
+
+        // Verificar a cada 60 segundos
+        setInterval(checkNotifications, 60000);
+
+    </script>
+
 
 </html>

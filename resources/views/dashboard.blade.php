@@ -122,7 +122,7 @@
                             <div class="card h-100 shadow-sm">
                                 <div class="card-header bg-success text-white d-flex justify-content-between">
                                     <span>Medicamentos</span>
-                                    <a href="{{ route('medications.index') }}" class="text-white">+ Adicionar</a>
+                                    <a href="{{ route('medicamentos.index') }}" class="text-white">+ Adicionar</a>
                                 </div>
                                 <div class="card-body">
                                     @if(isset($todayMedications) && $todayMedications->count())
