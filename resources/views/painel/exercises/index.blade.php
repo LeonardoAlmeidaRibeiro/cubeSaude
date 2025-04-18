@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>SB Admin 2 - Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- Custom fonts for this template-->
@@ -66,11 +65,11 @@
                                         <div class="table-responsive">
                                             <table class="table table-hover">
                                                 <thead>
-                                                    <tr>
-                                                        <th>Atividade</th>
-                                                        <th>Duração (minutos)</th>
-                                                        <th>Realizado em</th>
-                                                        <th>Ações</th>
+                                                    <tr >
+                                                        <th class="table-dark">Atividade</th>
+                                                        <th class="table-dark">Duração (minutos)</th>
+                                                        <th class="table-dark">Realizado em</th>
+                                                        <th class="table-dark">Ações</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
