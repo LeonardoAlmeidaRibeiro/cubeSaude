@@ -28,7 +28,7 @@ Route::get('/', function () {
 });
 
 Route::get('/teste', function () {
-    return view('teste');
+    return view('index');
 });
 Route::get('/login', function () {
     return view('auth.login');
