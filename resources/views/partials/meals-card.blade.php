@@ -2,7 +2,7 @@
     <div class="card-header bg-info text-white">
         <div class="d-flex justify-content-between">
             <span>href="{{route('dashboard')}}"</span>
-            <a href="{{ route('meals.create') }}" class="text-white">+ Nova</a>
+            <a href="{{ route('refeicoes.create') }}" class="text-white">+ Nova</a>
         </div>
     </div>
     <div class="card-body">

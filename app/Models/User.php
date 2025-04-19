@@ -60,9 +60,9 @@ class User extends Authenticatable implements CanResetPasswordContract
         return $this->hasMany(Medicamento::class, 'user_id');
     }
 
-    public function meals()
+    public function refeicoes()
     {
-        return $this->hasMany(Meal::class);
+        return $this->hasMany(Refeicao::class, 'user_id');
     }
 
     public function exercises()

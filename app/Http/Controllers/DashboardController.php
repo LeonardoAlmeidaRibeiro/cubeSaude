@@ -62,9 +62,9 @@ class DashboardController extends Controller
                 ->whereDate('created_at', $today)
                 ->get(),
 
-            'todayMeals' => $user->meals()
-                ->whereDate('consumed_at', $today)
-                ->orderBy('consumed_at')
+            'refeicoesHoje' => $user->refeicoes()
+                ->whereDate('consumido_em', $today)
+                ->orderBy('consumido_em')
                 ->get(),
 
             'todayExercises' => $user->exercises()
@@ -75,6 +75,7 @@ class DashboardController extends Controller
             'notifications' => $notifications,
         ]);
     }
+
     public function profile()
     {
         return view('profile');
