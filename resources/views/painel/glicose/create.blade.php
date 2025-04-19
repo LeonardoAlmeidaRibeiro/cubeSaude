@@ -59,7 +59,7 @@
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button type="reset" class="btn btn-outline-secondary me-md-2">
                                     <i class="fas fa-eraser"></i> Limpar
-                                </button>&nbsp;
+                                </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i> Salvar Medição
                                 </button>

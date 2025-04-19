@@ -57,7 +57,7 @@
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <a href="{{ route('glucose.index') }}" class="btn btn-outline-secondary me-md-2">
                                     <i class="fas fa-times"></i> Cancelar
-                                </a>&nbsp;
+                                </a>
                                 <button type="submit" class="btn btn-primary text-white">
                                     <i class="fas fa-save"></i> Atualizar Medição
                                 </button>
