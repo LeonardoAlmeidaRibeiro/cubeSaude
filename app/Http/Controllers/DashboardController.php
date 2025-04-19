@@ -57,7 +57,6 @@ class DashboardController extends Controller
                 ->orderBy('medido_em')  // Ajustado para 'medido_em'
                 ->get(),
 
-            // Restante do array de retorno permanece igual...
             'proximoMedicamento' => $user->medicamentos()
                 ->whereDate('created_at', $today)
                 ->get(),
@@ -67,8 +66,8 @@ class DashboardController extends Controller
                 ->orderBy('consumido_em')
                 ->get(),
 
-            'todayExercises' => $user->exercises()
-                ->whereDate('done_at', $today)
+            'todayExercises' => $user->exercicios()
+                ->whereDate('realizado_em', $today)
                 ->get(),
 
             'user' => $user,

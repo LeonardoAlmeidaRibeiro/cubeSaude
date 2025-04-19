@@ -65,9 +65,9 @@ class User extends Authenticatable implements CanResetPasswordContract
         return $this->hasMany(Refeicao::class, 'user_id');
     }
 
-    public function exercises()
+    public function exercicios()
     {
-        return $this->hasMany(Exercise::class);
+        return $this->hasMany(Exercicio::class);
     }
 
     use CanResetPassword;

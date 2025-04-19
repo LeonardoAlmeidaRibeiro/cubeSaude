@@ -7,7 +7,7 @@ use App\Http\Controllers\{
     GlucoseMeasurementController,
     MedicamentoController,
     RefeicaoController,
-    ExerciseController
+    ExercicioController
 };
 
 
@@ -56,5 +56,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/medicamentos/{medicamento}/toggle-taken', [MedicamentoController::class, 'toggleTaken'])
         ->name('medicamentos.toggleTaken');
     Route::resource('refeicoes', RefeicaoController::class)->parameters(['refeicoes' => 'refeicao']);
-    Route::resource('exercises', ExerciseController::class);
+    Route::resource('exercises', ExercicioController::class)->parameters(['exercises' => 'exercicio']);
 });
