@@ -69,6 +69,9 @@ class DashboardController extends Controller
             'todayExercises' => $user->exercicios()
                 ->whereDate('realizado_em', $today)
                 ->get(),
+            'pressaoHoje' => $user->pressoes()
+                ->whereDate('data', $today)
+                ->get(),
 
             'user' => $user,
             'notifications' => $notifications,

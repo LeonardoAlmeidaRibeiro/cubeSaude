@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Refeicao extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'refeicoes';
-    
+
     protected $fillable = [
         'user_id',
         'nome',
@@ -26,5 +26,10 @@ class Refeicao extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getConsumidoEmFormatadoAttribute()
+    {
+        return \Carbon\Carbon::parse($this->consumido_em)->format('d/m/Y H:i');
     }
 }
