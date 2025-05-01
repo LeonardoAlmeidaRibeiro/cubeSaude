@@ -74,6 +74,9 @@ class User extends Authenticatable implements CanResetPasswordContract
     {
         return $this->hasMany(RegistroPressaoArterial::class);
     }
-
+    public function medicamentosPressao()
+    {
+        return $this->hasMany(MedicamentoPressao::class, 'user_id');
+    }
     use CanResetPassword;
 }

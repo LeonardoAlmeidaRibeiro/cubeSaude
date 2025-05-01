@@ -72,6 +72,9 @@ class DashboardController extends Controller
             'pressaoHoje' => $user->pressoes()
                 ->whereDate('data', $today)
                 ->get(),
+            'medicamentoPressaoHoje' => $user->medicamentosPressao()
+                ->whereDate('created_at', $today)
+                ->get(),
 
             'user' => $user,
             'notifications' => $notifications,
