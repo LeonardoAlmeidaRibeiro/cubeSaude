@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     RefeicaoController,
     ExercicioController,
     RegistroPressaoArterialController,
-    MedicamentoPressaoArterialController
+    MedicamentoPressaoArterialController,
+    UserController
 };
 
 
@@ -60,13 +61,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('refeicoes', RefeicaoController::class)->parameters(['refeicoes' => 'refeicao']);
     Route::resource('exercises', ExercicioController::class)->parameters(['exercises' => 'exercicio']);
     Route::resource('registros-pressao', RegistroPressaoArterialController::class)->parameters(['registros-pressao' => 'registro']);
-    Route::get('medicamento-pressao', [MedicamentoPressaoArterialController::class,'index'])->name('medicamento-pressao.index');
-    Route::get('medicamento-pressao/create', [MedicamentoPressaoArterialController::class,'create'])->name('medicamento-pressao.create');
-    Route::post('medicamento-pressao/store', [MedicamentoPressaoArterialController::class,'store'])->name('medicamento-pressao.store');
-    Route::get('medicamento-pressao/edit/{id}', [MedicamentoPressaoArterialController::class,'edit'])->name('medicamento-pressao.edit');
+    Route::get('medicamento-pressao', [MedicamentoPressaoArterialController::class, 'index'])->name('medicamento-pressao.index');
+    Route::get('medicamento-pressao/create', [MedicamentoPressaoArterialController::class, 'create'])->name('medicamento-pressao.create');
+    Route::post('medicamento-pressao/store', [MedicamentoPressaoArterialController::class, 'store'])->name('medicamento-pressao.store');
+    Route::get('medicamento-pressao/edit/{id}', [MedicamentoPressaoArterialController::class, 'edit'])->name('medicamento-pressao.edit');
     Route::put('medicamento-pressao/update/{medicamento}', [MedicamentoPressaoArterialController::class, 'update'])->name('medicamento-pressao.update');
-    Route::delete('medicamento-pressao/destroy/{medicamento}', [MedicamentoPressaoArterialController::class,'destroy'])->name('medicamento-pressao.destroy');
+    Route::delete('medicamento-pressao/destroy/{medicamento}', [MedicamentoPressaoArterialController::class, 'destroy'])->name('medicamento-pressao.destroy');
     Route::any('/medicamento-pressao/{medicamento}/toggle-taken', [MedicamentoPressaoArterialController::class, 'toggleTaken'])
-    ->name('medicamento-pressao.toggleTaken');
+        ->name('medicamento-pressao.toggleTaken');
 
+
+    Route::get('/painel/usuario/index', [UserController::class, 'index'])->name('usuario.index');
+    Route::get('/painel/usuario/edit', [UserController::class, 'edit'])->name('usuario.edit');
 });
