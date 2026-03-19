@@ -1,64 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 🏥 Cube Saúde - Sistema de Gestão
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema web desenvolvido em **Laravel (PHP)** para gerenciamento de informações na área de saúde, com foco em organização, controle e eficiência operacional.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Sobre o Projeto
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+O **Cube Saúde** é uma aplicação web que permite o gerenciamento de dados e processos relacionados à área da saúde, oferecendo uma estrutura organizada e escalável.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+O sistema foi desenvolvido com foco em:
 
-## Learning Laravel
+* Organização de código (MVC)
+* Facilidade de manutenção
+* Boas práticas com Laravel
+* Separação de responsabilidades
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Tecnologias Utilizadas
 
-## Laravel Sponsors
+* **PHP**
+* **Laravel**
+* **MySQL / PostgreSQL**
+* **Blade (Template Engine)**
+* **Bootstrap / CSS**
+* **JavaScript**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+---
 
-### Premium Partners
+## 🧱 Arquitetura
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+O projeto segue o padrão **MVC (Model-View-Controller)**:
 
-## Contributing
+```id="mvc123"
+app/
+ ├── Models        → Representação dos dados
+ ├── Http/
+ │    ├── Controllers → Regras de entrada
+ ├── Services (se houver)
+resources/
+ ├── views         → Interface (Blade)
+routes/
+ ├── web.php       → Rotas da aplicação
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 📦 Funcionalidades
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+✔️ Cadastro e gerenciamento de dados
+✔️ Operações CRUD completas
+✔️ Interface web com Blade
+✔️ Integração com banco de dados
+✔️ Estrutura organizada e escalável
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🔄 Fluxo da Aplicação
 
-## License
+1. Usuário acessa o sistema via navegador
+2. Requisição é enviada pelas rotas (`web.php`)
+3. Controller processa a requisição
+4. Model interage com o banco
+5. View (Blade) retorna a interface ao usuário
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## ⚙️ Como Executar o Projeto
+
+### Pré-requisitos
+
+* PHP 8+
+* Composer
+* Banco de dados (MySQL ou PostgreSQL)
+
+---
+
+### Passos
+
+```bash id="laravelrun"
+# Clonar o repositório
+git clone https://github.com/seu-usuario/cube-saude.git
+
+# Entrar na pasta
+cd cube-saude
+
+# Instalar dependências
+composer install
+
+# Copiar arquivo de ambiente
+cp .env.example .env
+
+# Gerar chave da aplicação
+php artisan key:generate
+
+# Configurar banco no .env
+
+# Rodar migrations
+php artisan migrate
+
+# Iniciar servidor
+php artisan serve
+```
+
+---
+
+## 🗄️ Configuração
+
+As configurações principais ficam no arquivo:
+
+```id="envfile"
+.env
+```
+
+Exemplo:
+
+```env id="envex"
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=cube_saude
+DB_USERNAME=root
+DB_PASSWORD=******
+```
+
+---
+
+## 💡 Diferenciais do Projeto
+
+* Estrutura seguindo padrão MVC
+* Organização clara de rotas e controllers
+* Uso do Eloquent ORM
+* Facilidade para manutenção e evolução
+* Base sólida para sistemas corporativos
+
+---
+
+## 🎯 Objetivo
+
+Projeto desenvolvido para:
+
+* Prática com **Laravel**
+* Construção de sistemas web completos
+* Aplicação de boas práticas de desenvolvimento
+* Portfólio profissional
+
+---
+
+## 👨‍💻 Autor
+
+**Leonardo Almeida Ribeiro**
+
+---
+
+## 📄 Licença
+
+MIT
