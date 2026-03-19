@@ -1,19 +1,118 @@
-# 🏥 Cube Saúde - Sistema de Gestão
+# 🏥 Cube Saúde - Sistema de Monitoramento de Saúde
 
-Sistema web desenvolvido em **Laravel (PHP)** para gerenciamento de informações na área de saúde, com foco em organização, controle e eficiência operacional.
+Sistema web desenvolvido em **Laravel (PHP)** para acompanhamento de saúde pessoal, permitindo o controle de glicose, pressão arterial, medicamentos, alimentação e atividades físicas em um único painel integrado.
 
 ---
 
 ## 🚀 Sobre o Projeto
 
-O **Cube Saúde** é uma aplicação web que permite o gerenciamento de dados e processos relacionados à área da saúde, oferecendo uma estrutura organizada e escalável.
+O **Cube Saúde** é uma aplicação completa para monitoramento de indicadores de saúde, voltada principalmente para:
 
-O sistema foi desenvolvido com foco em:
+* Pessoas com **diabetes**
+* Controle de **pressão arterial**
+* Acompanhamento de hábitos diários
 
-* Organização de código (MVC)
-* Facilidade de manutenção
-* Boas práticas com Laravel
-* Separação de responsabilidades
+O sistema centraliza informações importantes e auxilia o usuário com **alertas e lembretes inteligentes**, promovendo um melhor controle da saúde.
+
+---
+
+## 🧠 Funcionalidades Principais
+
+### 📊 Dashboard Inteligente
+
+* Exibe resumo completo do dia:
+
+  * Medições de glicose
+  * Pressão arterial
+  * Refeições
+  * Exercícios
+  * Medicamentos
+* Sistema de **alertas automáticos**
+
+  * Ex: medições de glicose pendentes
+* Identificação de itens críticos (valores altos/baixos)
+
+---
+
+### 💉 Controle de Glicose
+
+* Registro de medições ao longo do dia
+* Classificação por tipo de medição
+* Destaque visual para:
+
+  * Valores altos (hiperglicemia)
+  * Valores baixos (hipoglicemia)
+
+---
+
+### 💊 Gestão de Medicamentos
+
+* Cadastro de medicamentos
+* Controle de horários
+* Marcação de medicamentos como:
+
+  * ✅ Tomado
+  * ❎ Pendente
+
+---
+
+### ❤️ Monitoramento de Pressão Arterial
+
+* Registro de pressão sistólica/diastólica
+* Cálculo e classificação automática:
+
+  * Normal
+  * Atenção
+  * Alta
+* Registro de pulso
+
+---
+
+### 🍽️ Controle de Refeições
+
+* Registro de refeições diárias
+* Classificação por tipo (café, almoço, etc.)
+* Controle de carboidratos
+
+---
+
+### 🏃 Atividades Físicas
+
+* Registro de exercícios
+* Controle de duração
+* Histórico diário de atividades
+
+---
+
+### 🔐 Autenticação de Usuário
+
+* Login e registro
+* Alteração de senha
+* Recuperação de acesso
+* Rotas protegidas por autenticação
+
+---
+
+## 🧱 Arquitetura
+
+O projeto segue o padrão **MVC do Laravel**:
+
+```id="mvc2"
+routes/web.php      → Definição das rotas
+Controllers         → Regras de negócio
+Models              → Dados e relacionamentos
+Blade (views)       → Interface do usuário
+```
+
+---
+
+## 🔄 Fluxo do Sistema
+
+1. Usuário realiza login no sistema
+2. Acessa o dashboard
+3. Registra dados de saúde ao longo do dia
+4. Sistema analisa informações automaticamente
+5. Alertas são gerados conforme necessidade
 
 ---
 
@@ -21,80 +120,40 @@ O sistema foi desenvolvido com foco em:
 
 * **PHP**
 * **Laravel**
-* **MySQL / PostgreSQL**
-* **Blade (Template Engine)**
-* **Bootstrap / CSS**
+* **Blade**
+* **Bootstrap**
 * **JavaScript**
+* **MySQL / PostgreSQL**
 
 ---
 
-## 🧱 Arquitetura
+## 📡 Rotas Principais
 
-O projeto segue o padrão **MVC (Model-View-Controller)**:
-
-```id="mvc123"
-app/
- ├── Models        → Representação dos dados
- ├── Http/
- │    ├── Controllers → Regras de entrada
- ├── Services (se houver)
-resources/
- ├── views         → Interface (Blade)
-routes/
- ├── web.php       → Rotas da aplicação
-```
-
----
-
-## 📦 Funcionalidades
-
-✔️ Cadastro e gerenciamento de dados
-✔️ Operações CRUD completas
-✔️ Interface web com Blade
-✔️ Integração com banco de dados
-✔️ Estrutura organizada e escalável
-
----
-
-## 🔄 Fluxo da Aplicação
-
-1. Usuário acessa o sistema via navegador
-2. Requisição é enviada pelas rotas (`web.php`)
-3. Controller processa a requisição
-4. Model interage com o banco
-5. View (Blade) retorna a interface ao usuário
+* `/login` → Autenticação
+* `/register` → Cadastro
+* `/painel/index` → Dashboard
+* `/glucose` → Glicose
+* `/medicamentos` → Medicamentos
+* `/registros-pressao` → Pressão arterial
+* `/refeicoes` → Refeições
+* `/exercises` → Exercícios
 
 ---
 
 ## ⚙️ Como Executar o Projeto
 
-### Pré-requisitos
-
-* PHP 8+
-* Composer
-* Banco de dados (MySQL ou PostgreSQL)
-
----
-
-### Passos
-
-```bash id="laravelrun"
-# Clonar o repositório
+```bash
+# Clonar repositório
 git clone https://github.com/seu-usuario/cube-saude.git
-
-# Entrar na pasta
-cd cube-saude
 
 # Instalar dependências
 composer install
 
-# Copiar arquivo de ambiente
+# Configurar ambiente
 cp .env.example .env
 
-# Gerar chave da aplicação
+# Gerar chave
 php artisan key:generate
-
-# Configurar banco no .env
 
 # Rodar migrations
 php artisan migrate
@@ -105,34 +164,14 @@ php artisan serve
 
 ---
 
-## 🗄️ Configuração
-
-As configurações principais ficam no arquivo:
-
-```id="envfile"
-.env
-```
-
-Exemplo:
-
-```env id="envex"
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=cube_saude
-DB_USERNAME=root
-DB_PASSWORD=******
-```
-
----
-
 ## 💡 Diferenciais do Projeto
 
-* Estrutura seguindo padrão MVC
-* Organização clara de rotas e controllers
-* Uso do Eloquent ORM
-* Facilidade para manutenção e evolução
-* Base sólida para sistemas corporativos
+* Sistema completo de **monitoramento de saúde**
+* Dashboard com **dados em tempo real**
+* **Alertas automáticos inteligentes**
+* Controle integrado de múltiplos indicadores
+* Interface organizada e responsiva
+* Aplicação com potencial real de uso
 
 ---
 
@@ -141,8 +180,8 @@ DB_PASSWORD=******
 Projeto desenvolvido para:
 
 * Prática com **Laravel**
-* Construção de sistemas web completos
-* Aplicação de boas práticas de desenvolvimento
+* Construção de sistemas reais
+* Demonstração de capacidade **full stack backend + interface**
 * Portfólio profissional
 
 ---
